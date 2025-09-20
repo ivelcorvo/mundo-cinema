@@ -1,7 +1,14 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
+// #### HOOKS ####
+  import { useAuth } from "../context/AuthContext";
+  import { useState } from "react";
+  import { useAuthActions } from "../hooks/useAuthActions";
+
 const NavBar = () => {
+  const {user} = useAuth();
+
+  const {logoutUser} = useAuthActions();
   
   const [collapse,setCollpse] = useState<boolean>(false);
 
@@ -24,23 +31,35 @@ const NavBar = () => {
             <li>
               <NavLink to="/" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-house"></i> Inicio</NavLink>
             </li>
-            <li>
-              <NavLink to="/login" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-right-to-bracket"></i> Login</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-address-card"></i> Cadastrar</NavLink>
-            </li>
+            {!user &&
+              <>
+                <li>
+                  <NavLink to="/login" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-right-to-bracket"></i> Login</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/register" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-address-card"></i> Cadastrar</NavLink>
+                </li>
+              </>
+            }
             <li>
               <NavLink to="/about" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-circle-info"></i> Sobre</NavLink>
             </li>
-            <li>
-              <NavLink to="/favorites" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-heart"></i> Favoritos</NavLink>
-            </li>
-            <li>
-              <button className={`${classLink} w-full text-start hover:cursor-pointer`}>
-                <i className="fa-solid fa-right-from-bracket"></i> Sair
-              </button>
-            </li>
+            {user &&
+              <>
+                <li>
+                  <NavLink to="/favorites" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-heart"></i> Favoritos</NavLink>
+                </li>
+                <li>
+                  <button 
+                    className={`${classLink} w-full text-start hover:cursor-pointer`}
+                    onClick={()=>{logoutUser();}}  
+                  >
+                    <i className="fa-solid fa-right-from-bracket"></i> Sair
+                  </button>
+                </li>
+              </>
+            }
+            
             <li>
               <button className={`${classLink} w-full text-start hover:cursor-pointer`}>
                 <i className="fa-solid fa-sun"></i> / <i className="fa-solid fa-moon"></i> Tema
