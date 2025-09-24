@@ -1,5 +1,6 @@
 {
   "name": "mundo-cinema",
+  "homepage": "https://ivelcorvo.github.io/mundo-cinema/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
