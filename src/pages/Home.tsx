@@ -52,6 +52,7 @@ const Home = () => {
         {(!loading&&!error&&movies.length>0) &&
           <Movies movies={movies}></Movies>
         }
+        {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
       </div>
 
     </div>

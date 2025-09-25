@@ -13,6 +13,8 @@ export interface TMDBMovie  {
   tagline?: string;
 };
 
+export const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+
 export const useMovies = ()=>{
 
   const [error,setError]     = useState<Error | null>(null)
