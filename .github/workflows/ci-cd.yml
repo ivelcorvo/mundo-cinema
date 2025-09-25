@@ -19,6 +19,9 @@ jobs:
 
       - name: Instalar dependências
         run: npm install
+      
+      - name: Rodar Testes
+        run: CI=true npm test
 
       - name: Build do React
         run: npm run build
