@@ -1,5 +1,8 @@
-import Movie from "./Movie"
-import { TMDBMovie } from "../hooks/useMovies"
+// ### COMPONENTES ###
+  import Movie from "./Movie"
+
+// ### HOOKS | INTERFACES ###
+  import { TMDBMovie } from "../hooks/useMovies"
 
 interface Props{
   movies: TMDBMovie[];

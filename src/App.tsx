@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-
 // #### HOOKS ####
   import { useAuth } from "./context/AuthContext";
 
@@ -15,6 +14,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
   import Register from "./pages/Register";
   import About from "./pages/About";
   import Favorites from "./pages/Favorites";
+  import MovieDetail from "./pages/MovieDetail";
 
 function App() {
 
@@ -30,14 +30,15 @@ function App() {
     <div className="bg-black text-gray-400 flex flex-col min-h-screen p-0 m-0">
       <BrowserRouter>
         <NavBar></NavBar>
-        <main className="pt-30 flex-grow">
+        <main className="pt-30 flex-grow max-w-[95%] sm:max-w-[80%] mx-auto ">
           <Routes>
-            <Route path="/"          element={<Home/>}/>
-            <Route path="/login"     element={(!user)?<Login/>:<Home/>}/>
-            <Route path="/register"  element={(!user)?<Register/>:<Home/>}/>
-            <Route path="/about"     element={<About/>}/>
-            <Route path="/favorites" element={(user)?<Favorites/>:<Home/>}/>
-            <Route path="*"          element={<Navigate to="/"/>}/>
+            <Route path="/"             element={<Home/>}/>
+            <Route path="/login"        element={(!user)?<Login/>:<Home/>}/>
+            <Route path="/register"     element={(!user)?<Register/>:<Home/>}/>
+            <Route path="/about"        element={<About/>}/>
+            <Route path="/favorites"    element={(user)?<Favorites/>:<Home/>}/>
+            <Route path="/movie/detail/:id" element={<MovieDetail/>}/>
+            <Route path="*"             element={<Navigate to="/"/>}/>
           </Routes>
         </main>
         <Footer></Footer>

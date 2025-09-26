@@ -1,8 +1,10 @@
-import { FormEvent, useEffect, useState } from "react";
-import Movies from "../components/Movies";
-import { useMovies } from "../hooks/useMovies";
-import { TMDBMovie } from "../hooks/useMovies"; 
-import Loading from "../components/Loading";
+// ### COMPONENTES ###
+  import Movies from "../components/Movies";
+  import Loading from "../components/Loading";
+
+// ### HOOKS | INTERFACES ###
+  import { useEffect, useState, FormEvent } from "react";
+  import { useMovies,TMDBMovie } from "../hooks/useMovies";
 
 const Home = () => {
   const {loading, error, getMovies} = useMovies();
@@ -22,30 +24,33 @@ const Home = () => {
     e.preventDefault();
   }
   return (
-    <div className="max-w-[95%] sm:max-w-[80%] mx-auto ">
+    // <div className="max-w-[95%] sm:max-w-[80%] mx-auto ">
+    <>
 
-      <div className="mb-10">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-row">
-            <input 
-              type="text" 
-              className={"bg-gray-700 w-full px-4 py-1 rounded-s-md"}  
-            />
-            <button
-              type="submit"
-              className="bg-gray-800 hover:bg-gray-900 px-2 py-1 rounded-e-md hover:cursor-pointer"
-            >
-              Pesquisar
-            </button>
-          </div>
-        </form>
-      </div>
+      {/* ### FORMULARIO DE BUSCA ### */}
+      <section className="mb-10">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-row">
+              <input 
+                type="text" 
+                className={"bg-gray-700 w-full px-4 py-1 rounded-s-md"}  
+                />
+              <button
+                type="submit"
+                className="bg-gray-800 hover:bg-gray-900 px-2 py-1 rounded-e-md hover:cursor-pointer"
+                >
+                Pesquisar
+              </button>
+            </div>
+          </form>
+        </section>
 
-      <div className="mb-10">
-        generos
-      </div>
+        {/* ### MENU COM GENEROS ### */}
+        <nav className="mb-10">
+          generos
+        </nav>
 
-      <div>
+        {/* ### EXIBIÇÃO DOS FILMES ### */}
         {(loading&&!error) &&
           <Loading></Loading>
         }
@@ -53,9 +58,10 @@ const Home = () => {
           <Movies movies={movies}></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
-      </div>
 
-    </div>
+        
+    </>
+    // </div>
   )
 };
 
