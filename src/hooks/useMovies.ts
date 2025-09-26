@@ -33,5 +33,18 @@ export const useMovies = ()=>{
     }
   },[]);
 
-  return {loading, error, getMovies};
+  const getMovie = useCallback(async(id:string|undefined):Promise<TMDBMovie>=>{
+    setLoading(true);
+    try {
+      const res = await tmdb.get<TMDBMovie>(`/movie/${id}`);
+      setLoading(false);
+      return res.data;
+    } catch (error:unknown) {
+      setError(error as Error);
+      setLoading(false);
+      throw error;
+    }
+  },[]);
+
+  return {loading, error, getMovies, getMovie};
 };
