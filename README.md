@@ -1,6 +1,6 @@
 # 🎬 Mundo Cinema
 
-[![CI/CD React GitHub Pages](https://github.com/ivelcorvo/mundo-cinema/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/ivelcorvo/mundo-cinema/actions/workflows/ci-cd.yml)
+[![CI/CD React GitHub Pages](https://github.com/ivelcorvo/mundo-cinema/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/ivelcorvo/mundo-cinema/actions/workflows/ci-cd.yml)
 
 Aplicação desenvolvida em **React com TypeScript**, utilizando
 **TailwindCSS** para estilização e **Firebase Authentication** para
@@ -21,6 +21,11 @@ A aplicação consome a API do **TMDB** (via **Axios**) para:\
 -   **Jest** e **React Testing Library** para testes unitários e de integração
 -   **GitHub Actions (CI/CD)** para deploy automático e execução de testes
 -   **GitHub Pages** para hospedagem
+
+## 🧪 Testes
+
+- Os testes são escritos em **Jest** e **React Testing Library**.  
+- Todos os testes são executados automaticamente no **GitHub Actions** a cada push.
 
 ## 🔒 Segurança e Deploy
 
@@ -43,5 +48,6 @@ Essa escolha demonstra:\
 -   Tratamento de dados e estados globais com Context API\
 -   Autenticação segura com Firebase\
 -   CI/CD automatizado no GitHub Actions\
+-   Execução automática de testes com Jest\
 -   Interfaces **responsivas** com TailwindCSS
 
