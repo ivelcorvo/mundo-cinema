@@ -16,26 +16,32 @@ const Home = () => {
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
   const [page,setPage]     = useState<number>(()=>currentPage?Number(currentPage):1);
 
-  useEffect(()=>{
-    const loadMovies = async()=>{
-      const data = await getMovies(page);
-      setMovies(data);
+  // ### BUSCA OS FILMES ####
+    useEffect(()=>{
+      const loadMovies = async()=>{
+        const data = await getMovies(page);
+        setMovies(data);
+      };
+      loadMovies();
+    },[getMovies,page]);
+    // console.log(movies);
+    // console.log(page);
+
+  // ### MANIPULAÇÃO DAS PÁGINAS ####
+    const nextPage = ()=>{
+      setPage(prev=>prev+1);
     };
-    loadMovies();
-  },[getMovies,page]);
-  // console.log(movies);
-  // console.log(page);
+    const prevPage = ()=>{
+      setPage(prev=>prev-1);
+    }
+    const iniPage = ()=>{
+      setPage(1);
+    }
 
-  const nextPage = ()=>{
-    setPage(prev=>prev+1);
-  };
-  const prevPage = ()=>{
-    setPage(prev=>prev-1);
-  }
-
-  const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
-    e.preventDefault();
-  }
+  // ### PESQUISA ####
+    const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
+      e.preventDefault();
+    }
 
   return (
     // <div className="max-w-[95%] sm:max-w-[80%] mx-auto ">
@@ -64,6 +70,16 @@ const Home = () => {
           generos
         </nav>
 
+        {/* ### PAGINAÇÃO SUPERIOR ### */}
+        {movies.length>0 &&
+          <BtnProxAnt 
+            page={page}
+            iniPage={iniPage}
+            nextPage={nextPage}
+            prevPage={prevPage}
+          ></BtnProxAnt>
+        }
+
         {/* ### EXIBIÇÃO DOS FILMES ### */}
         {(loading&&!error) &&
           <Loading></Loading>
@@ -76,12 +92,15 @@ const Home = () => {
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
 
-        {/* ### PAGINAS ### */}
-        <BtnProxAnt 
-          page={page}
-          nextPage={nextPage}
-          prevPage={prevPage}
-        ></BtnProxAnt>
+        {/* ### PAGINAÇÃO INFERIOR ### */}
+        {movies.length>0 &&
+          <BtnProxAnt 
+            page={page}
+            iniPage={iniPage}
+            nextPage={nextPage}
+            prevPage={prevPage}            
+          ></BtnProxAnt>
+        }
         
     </>
     // </div>
