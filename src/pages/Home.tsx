@@ -24,7 +24,7 @@ const Home = () => {
     loadMovies();
   },[getMovies,page]);
   // console.log(movies);
-  console.log(page);
+  // console.log(page);
 
   const nextPage = ()=>{
     setPage(prev=>prev+1);

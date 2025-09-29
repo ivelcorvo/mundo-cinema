@@ -11,6 +11,7 @@ export interface TMDBMovie  {
   genres?: {id:number, name:string}[];
   runtime?: number;
   tagline?: string;
+  adult?:boolean;
 };
 
 export const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
@@ -25,7 +26,14 @@ export const useMovies = ()=>{
     try {
       const res = await tmdb.get<{results:TMDBMovie[]}>("/movie/popular",{params:{page}});      
       setLoading(false);
-      return res.data.results;
+      
+      // REMOVE FILMES P   | por algum motivo tudo está com 'adult:false' a forma que encontrei foi ver o overview, já que os filmes P geralmente não tem
+      let movies;
+      movies = res.data.results.filter(r=>r.adult!==true);
+      movies =  movies.filter(m=>m.overview!=="");
+      // movies = res.data.results // retorna todos;
+      
+      return movies;
     } catch (error:unknown) {
       setError(error as Error);
       setLoading(false);
