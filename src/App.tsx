@@ -30,7 +30,7 @@ function App() {
     <div className="bg-black text-gray-400 flex flex-col min-h-screen p-0 m-0">
       <BrowserRouter>
         <NavBar></NavBar>
-        <main className="pt-30 flex-grow max-w-[95%] sm:max-w-[80%] mx-auto ">
+        <main className="pt-30 flex-grow max-w-[95%] min-w-[80%] sm:max-w-[80%] sm:min-w-[80%] mx-auto ">
           <Routes>
             <Route path="/home/:currentPage?"            element={<Home/>}/>
             <Route path="/login"                         element={(!user)?<Login/>:<Home/>}/>

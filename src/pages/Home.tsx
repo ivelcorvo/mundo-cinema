@@ -71,7 +71,7 @@ const Home = () => {
         </nav>
 
         {/* ### PAGINAÇÃO SUPERIOR ### */}
-        {movies.length>0 &&
+        {(!loading&&!error&&movies.length>0) &&
           <BtnProxAnt 
             page={page}
             iniPage={iniPage}
@@ -93,7 +93,7 @@ const Home = () => {
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
 
         {/* ### PAGINAÇÃO INFERIOR ### */}
-        {movies.length>0 &&
+        {(!loading&&!error&&movies.length>0) &&
           <BtnProxAnt 
             page={page}
             iniPage={iniPage}
