@@ -29,7 +29,7 @@ const NavBar = () => {
           </div>
           <ul className={`bg-gray-950 fixed left-0 top-12 flex flex-col h-full w-35 transform duration-500 z-30 ${(collapse)?"translate-x-0":"-translate-x-full"}`}>
             <li>
-              <NavLink to="/" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-house"></i> Inicio</NavLink>
+              <NavLink to="/home" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-house"></i> Inicio</NavLink>
             </li>
             {!user &&
               <>

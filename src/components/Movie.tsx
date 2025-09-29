@@ -3,10 +3,11 @@ import { TMDBMovie,TMDB_IMAGE_URL } from "../hooks/useMovies";
 import { Link } from "react-router-dom";
 
 interface Props{
-  movie:TMDBMovie;
+  movie: TMDBMovie;
+  currentPage: number;
 };
 
-const Movie = ({movie}:Props) => {
+const Movie = ({movie,currentPage}:Props) => {
 
   // console.log(movie);
 
@@ -31,7 +32,7 @@ const Movie = ({movie}:Props) => {
           </div>
           <div className="sm:mt-1">
             <Link 
-              to={`/movie/detail/${movie.id}`}
+              to={`/movie/detail/${movie.id}/${currentPage}`}
               className="bg-gray-800 hover:bg-gray-900 px-2 py-0.5 rounded-md shadow-md "              
             >
               Detalhes

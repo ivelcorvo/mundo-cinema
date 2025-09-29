@@ -1,34 +1,48 @@
 // ### COMPONENTES ###
   import Movies from "../components/Movies";
   import Loading from "../components/Loading";
+  import BtnProxAnt from "../components/BtnProxAnt";
 
 // ### HOOKS | INTERFACES ###
   import { useEffect, useState, FormEvent } from "react";
   import { useMovies,TMDBMovie } from "../hooks/useMovies";
+  import { useParams } from "react-router-dom";
+
 
 const Home = () => {
   const {loading, error, getMovies} = useMovies();
+  const {currentPage} = useParams<{currentPage?:string}>()
 
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
+  const [page,setPage]     = useState<number>(()=>currentPage?Number(currentPage):1);
 
   useEffect(()=>{
     const loadMovies = async()=>{
-      const data = await getMovies(1);
+      const data = await getMovies(page);
       setMovies(data);
     };
     loadMovies();
-  },[getMovies]);
+  },[getMovies,page]);
   // console.log(movies);
+  console.log(page);
+
+  const nextPage = ()=>{
+    setPage(prev=>prev+1);
+  };
+  const prevPage = ()=>{
+    setPage(prev=>prev-1);
+  }
 
   const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
   }
+
   return (
     // <div className="max-w-[95%] sm:max-w-[80%] mx-auto ">
     <>
 
       {/* ### FORMULARIO DE BUSCA ### */}
-      <section className="mb-10">
+        <section className="mb-10">
           <form onSubmit={handleSubmit}>
             <div className="flex flex-row">
               <input 
@@ -55,10 +69,19 @@ const Home = () => {
           <Loading></Loading>
         }
         {(!loading&&!error&&movies.length>0) &&
-          <Movies movies={movies}></Movies>
+          <Movies 
+            movies={movies}
+            currentPage={page}
+          ></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
 
+        {/* ### PAGINAS ### */}
+        <BtnProxAnt 
+          page={page}
+          nextPage={nextPage}
+          prevPage={prevPage}
+        ></BtnProxAnt>
         
     </>
     // </div>

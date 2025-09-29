@@ -11,7 +11,9 @@ type Props = {}
 
 const MovieDetail = (props: Props) => {
 
-  const {id} = useParams();
+  const {id}       = useParams();
+  const {currentPage} = useParams();
+
   const {error,loading,getMovie} = useMovies();
 
   const [movie,setMovie] = useState<TMDBMovie>();
@@ -31,7 +33,10 @@ const MovieDetail = (props: Props) => {
     <>
       {loading && <Loading></Loading>}
       {(!error&&!loading&&movie) &&
-        <DetailsMovie movie={movie}></DetailsMovie>
+        <DetailsMovie 
+          movie={movie}
+          currentPage={currentPage}
+        ></DetailsMovie>
       }
       {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível encontrar o filme...</p>}
 
