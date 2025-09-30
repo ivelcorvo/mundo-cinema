@@ -21,7 +21,7 @@ export const useMovies = ()=>{
   const [error,setError]     = useState<Error | null>(null)
   const [loading,setLoading] = useState<boolean>(false) ;
 
-  const getMovies = useCallback(async(page = 1):Promise<TMDBMovie[]>=> {
+  const getMovies = useCallback(async(page:number=1):Promise<TMDBMovie[]>=> {
     setLoading(true);
     try {
       const res = await tmdb.get<{results:TMDBMovie[]}>("/movie/popular",{params:{page}});      
@@ -41,6 +41,20 @@ export const useMovies = ()=>{
     }
   },[]);
 
+  const searchMovies = useCallback(async(query:string, page:number=1):Promise<TMDBMovie[]>=>{
+    setLoading(true);
+    try {
+      const res = await tmdb.get<{results:TMDBMovie[]}>("search/movie",{params:{query,page}});
+      setLoading(false);
+      return res.data.results;
+    } catch (error:unknown) {
+      setError(error as Error);
+      setLoading(false);
+      return [];
+
+    }
+  },[]);
+
   const getMovie = useCallback(async(id:string|undefined):Promise<TMDBMovie>=>{
     setLoading(true);
     try {
@@ -54,5 +68,5 @@ export const useMovies = ()=>{
     }
   },[]);
 
-  return {loading, error, getMovies, getMovie};
+  return {loading, error, getMovies, getMovie, searchMovies};
 };

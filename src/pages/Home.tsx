@@ -13,6 +13,7 @@ const Home = () => {
   const {loading, error, getMovies} = useMovies();
   const {currentPage} = useParams<{currentPage?:string}>()
 
+  const [searchQuery,setSearchQuery] = useState<string>("");
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
   const [page,setPage]     = useState<number>(()=>currentPage?Number(currentPage):1);
 
@@ -41,6 +42,9 @@ const Home = () => {
   // ### PESQUISA ####
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
+      
+      setPage(1);
+
     }
 
   return (
@@ -54,6 +58,9 @@ const Home = () => {
               <input 
                 type="text" 
                 className={"bg-gray-700 w-full px-4 py-1 rounded-s-md"}  
+                autoComplete="off"
+                onChange={(e)=>{setSearchQuery(e.target.value)}}
+                value={searchQuery}
                 />
               <button
                 type="submit"
