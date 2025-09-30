@@ -19,7 +19,7 @@ const Movie = ({movie,currentPage,search}:Props) => {
       <img 
         src={`${TMDB_IMAGE_URL}${movie.poster_path}`} 
         alt={`Poster do filme ${movie.title}`} 
-        className="duration-500 group-hover:opacity-25"
+        className="duration-500 group-hover:opacity-25 rounded-md"
       />
       
       <div className="absolute inset-0 opacity-100 sm:opacity-0 hover:opacity-100 h-full content-end text-white">    
@@ -34,7 +34,7 @@ const Movie = ({movie,currentPage,search}:Props) => {
           <div className="sm:mt-1">
             <Link 
               to={`/movie/detail/${movie.id}/${currentPage}/${search}`}
-              className="bg-gray-800 hover:bg-gray-900 px-2 py-0.5 rounded-md shadow-md "              
+              className="bg-blue-900 hover:bg-blue-950 px-2 py-0.5 rounded-md shadow-md "              
             >
               Detalhes
             </Link>            
