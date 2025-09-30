@@ -14,9 +14,9 @@ const Home = () => {
   const {currentPage,search} = useParams<{currentPage?:string, search?:string}>()
   
 
-  const [searchQuery,setSearchQuery] = useState<string>(()=>search?search:"");
+  const [searchQuery,setSearchQuery] = useState<string>(()=>(search)?search:"");
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
-  const [page,setPage]     = useState<number>(()=>currentPage?Number(currentPage):1);
+  const [page,setPage]     = useState<number>(()=>(currentPage)?Number(currentPage):1);
 
 
   // ### PESQUISA ####

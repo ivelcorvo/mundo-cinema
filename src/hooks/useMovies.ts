@@ -67,7 +67,6 @@ export const useMovies = ()=>{
     try {
       const res = await tmdb.get<TMDBMovie>(`/movie/${id}`);
       setLoading(false);
-      console.log(res.data)
       return res.data;
     } catch (error:unknown) {
       setError(error as Error);
