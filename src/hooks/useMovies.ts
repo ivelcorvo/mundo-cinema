@@ -27,10 +27,10 @@ export const useMovies = ()=>{
       const res = await tmdb.get<{results:TMDBMovie[]}>("/movie/popular",{params:{page}});      
       setLoading(false);
       
-      // REMOVE FILMES P   | por algum motivo tudo está com 'adult:false' a forma que encontrei foi ver o overview, já que os filmes P geralmente não tem
+      // REMOVE FILMES P... | por algum motivo tudo está com 'adult:false' a forma que encontrei foi ver o overview, já que os filmes P... geralmente não tem
       let movies;
       movies = res.data.results.filter(r=>r.adult!==true);
-      movies =  movies.filter(m=>m.overview!=="");
+      movies = movies.filter(m=>m.overview!=="");
       // movies = res.data.results // retorna todos;
       
       return movies;
@@ -45,8 +45,15 @@ export const useMovies = ()=>{
     setLoading(true);
     try {
       const res = await tmdb.get<{results:TMDBMovie[]}>("search/movie",{params:{query,page}});
+
+      // REMOVE FILMES P... | por algum motivo tudo está com 'adult:false' a forma que encontrei foi ver o overview, já que os filmes P... geralmente não tem
+      let movies;
+      movies = res.data.results.filter(r=>r.adult!==true);
+      movies = movies.filter(m=>m.overview!=="");
+      // movies = res.data.results // retorna todos;
+
       setLoading(false);
-      return res.data.results;
+      return movies;
     } catch (error:unknown) {
       setError(error as Error);
       setLoading(false);
@@ -60,6 +67,7 @@ export const useMovies = ()=>{
     try {
       const res = await tmdb.get<TMDBMovie>(`/movie/${id}`);
       setLoading(false);
+      console.log(res.data)
       return res.data;
     } catch (error:unknown) {
       setError(error as Error);

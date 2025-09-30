@@ -10,21 +10,38 @@
 
 
 const Home = () => {
-  const {loading, error, getMovies} = useMovies();
-  const {currentPage} = useParams<{currentPage?:string}>()
+  const {loading, error, getMovies, searchMovies} = useMovies();
+  const {currentPage,search} = useParams<{currentPage?:string, search?:string}>()
+  
 
-  const [searchQuery,setSearchQuery] = useState<string>("");
+  const [searchQuery,setSearchQuery] = useState<string>(()=>search?search:"");
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
   const [page,setPage]     = useState<number>(()=>currentPage?Number(currentPage):1);
+
+
+  // ### PESQUISA ####
+    const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
+      e.preventDefault();      
+      setPage(1);
+      setSearchQuery("");
+
+      // const res = await searchMovies(searchQuery,page);
+      // setMovies(res);
+    }
 
   // ### BUSCA OS FILMES ####
     useEffect(()=>{
       const loadMovies = async()=>{
-        const data = await getMovies(page);
+        let data:TMDBMovie[];
+        if(searchQuery.trim()===""){
+          data = await getMovies(page);
+        }else{
+          data = await searchMovies(searchQuery,page)
+        }
         setMovies(data);
       };
       loadMovies();
-    },[getMovies,page]);
+    },[getMovies,searchMovies,page,searchQuery]);
     // console.log(movies);
     // console.log(page);
 
@@ -39,35 +56,30 @@ const Home = () => {
       setPage(1);
     }
 
-  // ### PESQUISA ####
-    const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
-      e.preventDefault();
-      
-      setPage(1);
-
-    }
-
   return (
-    // <div className="max-w-[95%] sm:max-w-[80%] mx-auto ">
     <>
 
       {/* ### FORMULARIO DE BUSCA ### */}
         <section className="mb-10">
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-row">
+            <div className="flex flex-row relative">
               <input 
                 type="text" 
-                className={"bg-gray-700 w-full px-4 py-1 rounded-s-md"}  
+                className={"bg-gray-700 w-full ps-4 pe-16 py-1 rounded-md"}  
                 autoComplete="off"
-                onChange={(e)=>{setSearchQuery(e.target.value)}}
+                placeholder="Pesquise..."
+                onChange={(e)=>{
+                  setPage(1);
+                  setSearchQuery(e.target.value);
+                }}
                 value={searchQuery}
-                />
+              />
               <button
                 type="submit"
-                className="bg-gray-800 hover:bg-gray-900 px-2 py-1 rounded-e-md hover:cursor-pointer"
-                >
-                Pesquisar
-              </button>
+                className="absolute right-2 top-1 hover:cursor-pointer"
+              >
+                Limpar
+              </button> 
             </div>
           </form>
         </section>
@@ -79,7 +91,7 @@ const Home = () => {
 
         {/* ### PAGINAÇÃO SUPERIOR ### */}
         {(!loading&&!error&&movies.length>0) &&
-          <BtnProxAnt 
+          <BtnProxAnt             
             page={page}
             iniPage={iniPage}
             nextPage={nextPage}
@@ -95,6 +107,7 @@ const Home = () => {
           <Movies 
             movies={movies}
             currentPage={page}
+            search={searchQuery} 
           ></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}

@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 interface Props{
   movie: TMDBMovie;
   currentPage: number;
+  search: string;
 };
 
-const Movie = ({movie,currentPage}:Props) => {
+const Movie = ({movie,currentPage,search}:Props) => {
 
   // console.log(movie);
 
@@ -32,7 +33,7 @@ const Movie = ({movie,currentPage}:Props) => {
           </div>
           <div className="sm:mt-1">
             <Link 
-              to={`/movie/detail/${movie.id}/${currentPage}`}
+              to={`/movie/detail/${movie.id}/${currentPage}/${search}`}
               className="bg-gray-800 hover:bg-gray-900 px-2 py-0.5 rounded-md shadow-md "              
             >
               Detalhes

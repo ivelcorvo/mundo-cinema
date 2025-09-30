@@ -4,15 +4,16 @@ import { TMDBMovie, TMDB_IMAGE_URL } from "../hooks/useMovies"
 interface Props {
   movie: TMDBMovie,
   currentPage: string | undefined,
+  search: string | undefined
 }
 
-const DetailsMovie = ({movie,currentPage}: Props) => {
+const DetailsMovie = ({movie,currentPage,search}: Props) => {
   return (
     
     <> 
       <div>
         <Link 
-          to={`/home/${currentPage}`}
+          to={`/home/${currentPage}/${search}`}
           className="bg-blue-900 hover:bg-blue-950 px-4 py-3 rounded-full inline-block hover:scale-125"
         >
           <i className="fa-solid fa-left-long"></i>

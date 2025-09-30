@@ -7,9 +7,10 @@
 interface Props{
   movies: TMDBMovie[];
   currentPage: number;
+  search: string;
 };
 
-const Movies = ({movies,currentPage}:Props) => {  
+const Movies = ({movies,currentPage,search}:Props) => {  
   // const filmes:number[] = [...Array(21).keys()];
 
   return (
@@ -19,6 +20,7 @@ const Movies = ({movies,currentPage}:Props) => {
           key={movie.id} 
           movie={movie}
           currentPage={currentPage}
+          search={search}
         ></Movie>
       ))}
     </section>

@@ -11,8 +11,7 @@ type Props = {}
 
 const MovieDetail = (props: Props) => {
 
-  const {id}       = useParams();
-  const {currentPage} = useParams();
+  const {id, currentPage, search} = useParams();
 
   const {error,loading,getMovie} = useMovies();
 
@@ -26,8 +25,7 @@ const MovieDetail = (props: Props) => {
     };
     loadMovie(id);
   },[getMovie,id]);
-
-  console.log(movie);
+  // console.log(movie);
 
   return (
     <>
@@ -36,6 +34,7 @@ const MovieDetail = (props: Props) => {
         <DetailsMovie 
           movie={movie}
           currentPage={currentPage}
+          search={search}
         ></DetailsMovie>
       }
       {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível encontrar o filme...</p>}
