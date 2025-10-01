@@ -7,16 +7,20 @@
   import { useEffect, useState, FormEvent } from "react";
   import { useMovies,TMDBMovie } from "../hooks/useMovies";
   import { useParams } from "react-router-dom";
+  import { useFavorites } from "../hooks/useFavorites";
 
 
 const Home = () => {
+
+  // const {getIdsFavorites}                         = useFavorites();
+  const {favorites,addIdFavorites}                         = useFavorites();
   const {loading, error, getMovies, searchMovies} = useMovies();
-  const {currentPage,search} = useParams<{currentPage?:string, search?:string}>()
-  
+  const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>()
 
   const [searchQuery,setSearchQuery] = useState<string>(()=>(search)?search:"");
-  const [movies,setMovies] = useState<TMDBMovie[]>([]);
-  const [page,setPage]     = useState<number>(()=>(currentPage)?Number(currentPage):1);
+  const [movies,setMovies]           = useState<TMDBMovie[]>([]);
+  const [page,setPage]               = useState<number>(()=>(currentPage)?Number(currentPage):1);
+  // const [favorites,setFavorites]     = useState<string[]>([]);
 
 
   // ### PESQUISA ####
@@ -44,6 +48,16 @@ const Home = () => {
     },[getMovies,searchMovies,page,searchQuery]);
     // console.log(movies);
     // console.log(page);
+
+  // ### BUSCA OS IDS DOS FILMES FAVORITOS ####
+    // useEffect(()=>{
+    //   const loadFavorites = async()=>{
+    //     const ids = await getIdsFavorites();
+    //     setFavorites(ids);
+    //   }
+    //   loadFavorites();
+    // },[getIdsFavorites]);
+    // console.log(favorites);
 
   // ### MANIPULAÇÃO DAS PÁGINAS ####
     const nextPage = ()=>{
@@ -104,10 +118,12 @@ const Home = () => {
           <Loading></Loading>
         }
         {(!loading&&!error&&movies.length>0) &&
-          <Movies 
+          <Movies             
             movies={movies}
             currentPage={page}
             search={searchQuery} 
+            favorites={favorites}
+            addIdFavorites={addIdFavorites}
           ></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}

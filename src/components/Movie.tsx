@@ -1,15 +1,31 @@
 import { TMDBMovie,TMDB_IMAGE_URL } from "../hooks/useMovies";
-
 import { Link } from "react-router-dom";
+
+// ### COMPONENTES ###
+  import BtnFavorite from "./BtnFavorite";
+
+// ### HOOKS ###
+  import { useAuth } from "../context/AuthContext";
+
+
 
 interface Props{
   movie: TMDBMovie;
   currentPage: number;
   search: string;
+  favorites: string[];
+  addIdFavorites:(id: string)=>void;
 };
 
-const Movie = ({movie,currentPage,search}:Props) => {
+const Movie = ({
+  movie,
+  currentPage,
+  search,
+  favorites,
+  addIdFavorites
+}:Props) => {
 
+  const {user} = useAuth();
   // console.log(movie);
 
   return (
@@ -23,6 +39,15 @@ const Movie = ({movie,currentPage,search}:Props) => {
       />
       
       <div className="absolute inset-0 opacity-100 sm:opacity-0 hover:opacity-100 h-full content-end text-white">    
+        
+        {user && 
+          <BtnFavorite 
+            favorites={favorites}
+            id_movie={movie.id}
+            addIdFavorites={addIdFavorites}
+          ></BtnFavorite>
+        }
+
         <div className="p-4 bg-gradient-to-b from-transparent to-black"></div>  
         <div className="bg-black flex flex-col p-5">
           <header>
