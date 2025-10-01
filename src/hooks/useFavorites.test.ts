@@ -1,18 +1,23 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useFavorites } from "./useFavorites";
 import { apiRequest } from "../api/apiRequest";
-import { auth } from "../firebase/firebase_config";
 
+// Mock do apiRequest
 jest.mock("../api/apiRequest");
-jest.mock("../firebase/firebase_config");
+
+// Mock do Firebase auth
+jest.mock("../firebase/firebase_config", () => ({
+  auth: {
+    currentUser: {
+      uid: "user123",
+      getIdToken: jest.fn().mockResolvedValue("fake-token"),
+    },
+  },
+}));
 
 describe("useFavorites hook", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    (auth.currentUser as any) = {
-      uid: "user123",
-      getIdToken: jest.fn().mockResolvedValue("fake-token"),
-    };
   });
 
   it("deve carregar favoritos ao montar o hook", async () => {
@@ -22,6 +27,8 @@ describe("useFavorites hook", () => {
     const { result } = renderHook(() => useFavorites());
 
     await waitFor(() => expect(result.current.favorites).toEqual(["550", "603"]));
+    expect(result.current.error).toBeNull();
+    expect(result.current.loading).toBe(false);
 
     expect(apiRequest).toHaveBeenCalledWith(
       `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos.json`,
@@ -29,17 +36,13 @@ describe("useFavorites hook", () => {
       undefined,
       "fake-token"
     );
-
-    expect(result.current.error).toBeNull();
-    expect(result.current.loading).toBe(false);
   });
 
   it("deve adicionar um favorito", async () => {
-    // simula o get inicial
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true }) // getIdsFavorites inicial
-      .mockResolvedValueOnce(true)            // PUT addIdFavorites
-      .mockResolvedValueOnce({ "550": true, "603": true }); // getIdsFavorites após adicionar
+      .mockResolvedValueOnce({ "550": true }) // get inicial
+      .mockResolvedValueOnce(true)           // PUT adicionar
+      .mockResolvedValueOnce({ "550": true, "603": true }); // get após adicionar
 
     const { result } = renderHook(() => useFavorites());
 
@@ -61,9 +64,9 @@ describe("useFavorites hook", () => {
 
   it("deve remover um favorito", async () => {
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true, "603": true }) // getIdsFavorites inicial
-      .mockResolvedValueOnce(true)                           // DELETE removeFavorite
-      .mockResolvedValueOnce({ "550": true });              // getIdsFavorites após remoção
+      .mockResolvedValueOnce({ "550": true, "603": true }) // get inicial
+      .mockResolvedValueOnce(true)                           // DELETE remover
+      .mockResolvedValueOnce({ "550": true });               // get após remover
 
     const { result } = renderHook(() => useFavorites());
 
@@ -95,7 +98,7 @@ describe("useFavorites hook", () => {
 
   it("deve tratar erro ao adicionar favorito", async () => {
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true }) // getIdsFavorites inicial
+      .mockResolvedValueOnce({ "550": true }) // get inicial
       .mockRejectedValueOnce(new Error("Falha ao adicionar"));
 
     const { result } = renderHook(() => useFavorites());
@@ -112,7 +115,7 @@ describe("useFavorites hook", () => {
 
   it("deve tratar erro ao remover favorito", async () => {
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true, "603": true }) // getIdsFavorites inicial
+      .mockResolvedValueOnce({ "550": true, "603": true }) // get inicial
       .mockRejectedValueOnce(new Error("Falha ao remover"));
 
     const { result } = renderHook(() => useFavorites());
