@@ -1,3 +1,7 @@
+
+// Mock da variável de ambiente antes de qualquer import
+process.env.REACT_APP_FIREBASE_REALTIME_DATABASE = "https://fake-database.firebaseio.com";
+
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useFavorites } from "./useFavorites";
 import { apiRequest } from "../api/apiRequest";
@@ -21,7 +25,7 @@ describe("useFavorites hook", () => {
   });
 
   it("deve carregar favoritos ao montar o hook", async () => {
-    const mockResponse = { "550": true, "603": true }; // formato real do Firebase
+    const mockResponse = { "550": true, "603": true };
     (apiRequest as jest.Mock).mockResolvedValue(mockResponse);
 
     const { result } = renderHook(() => useFavorites());
@@ -31,7 +35,7 @@ describe("useFavorites hook", () => {
     expect(result.current.loading).toBe(false);
 
     expect(apiRequest).toHaveBeenCalledWith(
-      `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos.json`,
+      "https://fake-database.firebaseio.com/users/user123/favoritos.json",
       "GET",
       undefined,
       "fake-token"
@@ -40,8 +44,8 @@ describe("useFavorites hook", () => {
 
   it("deve adicionar um favorito", async () => {
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true }) // get inicial
-      .mockResolvedValueOnce(true)           // PUT adicionar
+      .mockResolvedValueOnce({ "550": true })                // get inicial
+      .mockResolvedValueOnce(true)                            // PUT adicionar
       .mockResolvedValueOnce({ "550": true, "603": true }); // get após adicionar
 
     const { result } = renderHook(() => useFavorites());
@@ -55,7 +59,7 @@ describe("useFavorites hook", () => {
     await waitFor(() => expect(result.current.favorites).toEqual(["550", "603"]));
 
     expect(apiRequest).toHaveBeenCalledWith(
-      `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos/603.json`,
+      "https://fake-database.firebaseio.com/users/user123/favoritos/603.json",
       "PUT",
       true,
       "fake-token"
@@ -79,7 +83,7 @@ describe("useFavorites hook", () => {
     await waitFor(() => expect(result.current.favorites).toEqual(["550"]));
 
     expect(apiRequest).toHaveBeenCalledWith(
-      `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos/603.json`,
+      "https://fake-database.firebaseio.com/users/user123/favoritos/603.json",
       "DELETE",
       undefined,
       "fake-token"
@@ -98,7 +102,7 @@ describe("useFavorites hook", () => {
 
   it("deve tratar erro ao adicionar favorito", async () => {
     (apiRequest as jest.Mock)
-      .mockResolvedValueOnce({ "550": true }) // get inicial
+      .mockResolvedValueOnce({ "550": true })               // get inicial
       .mockRejectedValueOnce(new Error("Falha ao adicionar"));
 
     const { result } = renderHook(() => useFavorites());
@@ -110,7 +114,7 @@ describe("useFavorites hook", () => {
     });
 
     expect(result.current.error).toBeInstanceOf(Error);
-    expect(result.current.favorites).toEqual(["550"]); // não adicionou
+    expect(result.current.favorites).toEqual(["550"]);
   });
 
   it("deve tratar erro ao remover favorito", async () => {
@@ -127,6 +131,6 @@ describe("useFavorites hook", () => {
     });
 
     expect(result.current.error).toBeInstanceOf(Error);
-    expect(result.current.favorites).toEqual(["550", "603"]); // não removeu
+    expect(result.current.favorites).toEqual(["550", "603"]);
   });
 });
