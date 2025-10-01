@@ -26,7 +26,7 @@ export const useFavorites = ()=>{
         undefined,
         token??undefined
       );
-      setFavorites(res);
+      setFavorites((res)?Object.keys(res):[]);
 
     } catch (error:unknown) {
       setError(error as Error);
@@ -37,7 +37,7 @@ export const useFavorites = ()=>{
 
   useEffect(()=>{
     getIdsFavorites();
-  },[]);
+  },[getIdsFavorites]);
   console.log(favorites);
 
   const addIdFavorites = async(id:string)=>{
@@ -59,5 +59,24 @@ export const useFavorites = ()=>{
     }
   }
 
-  return {favorites,error,loading,getIdsFavorites,addIdFavorites}
+  const removeFavorite = async(id:string)=>{
+    setError(null);
+    setLoading(true);
+    try {
+      const token = await getToken();
+      await apiRequest(
+        `${url}/users/${auth.currentUser!.uid}/favoritos/${id}.json`,
+        "DELETE",
+        undefined,
+        token??undefined
+      );
+      await getIdsFavorites();
+    } catch (error:unknown) {
+      setError(error as Error)
+      setLoading(false);
+      return [];
+    }
+  }
+
+  return {favorites,error,loading,getIdsFavorites,addIdFavorites,removeFavorite}
 };

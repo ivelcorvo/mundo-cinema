@@ -13,7 +13,7 @@
 const Home = () => {
 
   // const {getIdsFavorites}                         = useFavorites();
-  const {favorites,addIdFavorites}                         = useFavorites();
+  const {favorites,addIdFavorites,removeFavorite} = useFavorites();
   const {loading, error, getMovies, searchMovies} = useMovies();
   const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>()
 
@@ -124,6 +124,7 @@ const Home = () => {
             search={searchQuery} 
             favorites={favorites}
             addIdFavorites={addIdFavorites}
+            removeFavorite={removeFavorite}
           ></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}

@@ -4,17 +4,16 @@ import { Link } from "react-router-dom";
 // ### COMPONENTES ###
   import BtnFavorite from "./BtnFavorite";
 
-// ### HOOKS ###
+// ### HOOKS | INTERFACES ###
   import { useAuth } from "../context/AuthContext";
-
-
 
 interface Props{
   movie: TMDBMovie;
   currentPage: number;
   search: string;
   favorites: string[];
-  addIdFavorites:(id: string)=>void;
+  addIdFavorites:(id:string)=>void;
+  removeFavorite:(id:string)=>void;
 };
 
 const Movie = ({
@@ -22,7 +21,8 @@ const Movie = ({
   currentPage,
   search,
   favorites,
-  addIdFavorites
+  addIdFavorites,
+  removeFavorite
 }:Props) => {
 
   const {user} = useAuth();
@@ -45,6 +45,7 @@ const Movie = ({
             favorites={favorites}
             id_movie={movie.id}
             addIdFavorites={addIdFavorites}
+            removeFavorite={removeFavorite}
           ></BtnFavorite>
         }
 

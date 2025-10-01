@@ -10,6 +10,7 @@ interface Props{
   search: string;
   favorites: string[];
   addIdFavorites:(id: string)=>void;
+  removeFavorite:(id:string)=>void;
 };
 
 const Movies = ({
@@ -17,7 +18,8 @@ const Movies = ({
   currentPage,
   search,
   favorites,
-  addIdFavorites
+  addIdFavorites,
+  removeFavorite
 }:Props) => {  
   // const filmes:number[] = [...Array(21).keys()];
 
@@ -31,6 +33,7 @@ const Movies = ({
           search={search}
           favorites={favorites}
           addIdFavorites={addIdFavorites}
+          removeFavorite={removeFavorite}
         ></Movie>
       ))}
     </section>
