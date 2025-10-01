@@ -1,78 +1,70 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { useFavorites } from "./useFavorites";
 import { apiRequest } from "../api/apiRequest";
 import { auth } from "../firebase/firebase_config";
-import { act } from "react";
-
-jest.mock("../firebase/firebase_config",()=>({
-  auth:{
-    currentUser:{
-      getIdToken:jest.fn(),
-      uid:"mock-uid"
-    }
-  }
-}));
 
 jest.mock("../api/apiRequest");
-const mockedApiRequest = apiRequest as jest.MockedFunction<typeof apiRequest>;
+jest.mock("../firebase/firebase_config");
 
-describe("useFavorites",()=>{
-  beforeEach(()=>{
+describe("useFavorites hook", () => {
+  beforeEach(() => {
     jest.clearAllMocks();
+    (auth.currentUser as any) = {
+      uid: "user123",
+      getIdToken: jest.fn().mockResolvedValue("fake-token")
+    };
   });
 
-  it("BUSCA OS IDS FAVORITOS", async()=>{
-    (auth.currentUser!.getIdToken as jest.Mock).mockResolvedValue("mock-token");
-
-    mockedApiRequest.mockResolvedValue({
-      '550': true,
-      '603': true
-    });
-
-    const {result} = renderHook(()=>useFavorites());
-
-    await act(async()=>{
-      await result.current.getIdsFavorites();
-    });
-
-    expect(result.current.data).toEqual(["550","603"]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBeNull;
-  });
-
-  it('TRATA ERRO AO TENTAR BUSCAR IDS FAVORITOS', async ()=>{
-    (auth.currentUser!.getIdToken as jest.Mock).mockResolvedValue('mock-token');
-    mockedApiRequest.mockRejectedValue(new Error('Erro no fetch'));
+  it("deve carregar favoritos ao montar o hook", async () => {
+    const mockFavorites = ["550", "603"];
+    (apiRequest as jest.Mock).mockResolvedValue(mockFavorites);
 
     const { result } = renderHook(() => useFavorites());
 
-    await act(async () => {
-      await result.current.getIdsFavorites();
-    });
+    // espera o estado de favoritos ser atualizado
+    await waitFor(() => expect(result.current.favorites).toEqual(mockFavorites));
 
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBeInstanceOf(Error);
-  });
-
-  it("ADICIONAR FAVORITO", async()=>{
-    (auth.currentUser!.getIdToken as jest.Mock).mockResolvedValue("mock-token");
-
-    mockedApiRequest.mockResolvedValue({
-      '550': true,
-      '603': true,
-      '700': true
-    });
-
-    const {result} = renderHook(()=>useFavorites());
-    await act(async()=>{
-      await result.current.addIdFavorites("700");
-    });
-
-    expect(result.current.data).toEqual(['550', '603', '700']);
-    expect(result.current.loading).toBe(false);
+    expect(apiRequest).toHaveBeenCalledWith(
+      `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos.json`,
+      "GET",
+      undefined,
+      "fake-token"
+    );
     expect(result.current.error).toBeNull();
+    expect(result.current.loading).toBe(false);
   });
 
+  it("deve adicionar um favorito", async () => {
+    const mockFavorites = ["550"];
+    (apiRequest as jest.Mock)
+      .mockResolvedValueOnce(mockFavorites)      // primeiro getIdsFavorites
+      .mockResolvedValueOnce(true)               // addIdFavorites
+      .mockResolvedValueOnce([...mockFavorites, "603"]); // segundo getIdsFavorites
 
-})
+    const { result } = renderHook(() => useFavorites());
+
+    await waitFor(() => expect(result.current.favorites).toEqual(mockFavorites));
+
+    await act(async () => {
+      await result.current.addIdFavorites("603");
+    });
+
+    await waitFor(() => expect(result.current.favorites).toEqual(["550", "603"]));
+
+    expect(apiRequest).toHaveBeenCalledWith(
+      `${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE}/users/user123/favoritos/603.json`,
+      "PUT",
+      true,
+      "fake-token"
+    );
+  });
+
+  it("deve tratar erro ao buscar favoritos", async () => {
+    (apiRequest as jest.Mock).mockRejectedValue(new Error("Falha"));
+
+    const { result } = renderHook(() => useFavorites());
+
+    await waitFor(() => expect(result.current.error).toBeInstanceOf(Error));
+    expect(result.current.favorites).toEqual([]);
+  });
+});
