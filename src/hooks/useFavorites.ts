@@ -25,7 +25,7 @@ export const useFavorites = ()=>{
     try {
       const token = await getToken();
       const res   = await apiRequest(
-        `${url}/users/${auth.currentUser!.uid}/favoritos.json`,
+        `${url}/users/${user!.uid}/favoritos.json`,
         "GET",
         undefined,
         token??undefined
@@ -50,7 +50,7 @@ export const useFavorites = ()=>{
     try {
       const token = await getToken();
       await apiRequest(
-        `${url}/users/${auth.currentUser!.uid}/favoritos/${id}.json`,
+        `${url}/users/${user!.uid}/favoritos/${id}.json`,
         "PUT",
         true,
         token??undefined
@@ -69,7 +69,7 @@ export const useFavorites = ()=>{
     try {
       const token = await getToken();
       await apiRequest(
-        `${url}/users/${auth.currentUser!.uid}/favoritos/${id}.json`,
+        `${url}/users/${user!.uid}/favoritos/${id}.json`,
         "DELETE",
         undefined,
         token??undefined
