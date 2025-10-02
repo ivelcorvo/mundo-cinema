@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { apiRequest } from "../api/apiRequest";
-import { auth } from "../firebase/firebase_config";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -37,7 +36,7 @@ export const useFavorites = ()=>{
       setLoading(false);
       return [];
     }
-  },[url,getToken]);
+  },[url,user,getToken]);
 
   useEffect(()=>{
     getIdsFavorites();
