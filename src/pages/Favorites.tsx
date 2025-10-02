@@ -6,7 +6,7 @@ import Movies from "../components/Movies";
 
 const Favorites = () => {
 
-  const {favorites,addIdFavorites,removeFavorite} = useFavorites();
+  const {favorites} = useFavorites();
   const {getMoviesByIds,error,loading} = useMovies();
 
   const [movies,setMovies] = useState<TMDBMovie[]>([]);
@@ -30,9 +30,6 @@ const Favorites = () => {
       {(!error&&!loading&&movies.length>0) &&
         <Movies
         movies={movies}
-        favorites={favorites}
-        addIdFavorites={addIdFavorites}
-        removeFavorite={removeFavorite}
         webPage={"favorites"}
         ></Movies>
       }

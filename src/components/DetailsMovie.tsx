@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import { TMDBMovie, TMDB_IMAGE_URL } from "../hooks/useMovies"
+import BtnFavorite from "./BtnFavorite";
+import { useAuth } from "../context/AuthContext";
 
 interface Props {
   movie: TMDBMovie,
@@ -9,6 +11,8 @@ interface Props {
 }
 
 const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
+
+  const {user} = useAuth();
 
   let url_rote:string = "";
   if(webPage==="favorites") {
@@ -29,13 +33,18 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
       }}
     > 
       <div className="bg-black/85 p-3">
-        <div>
+        <div className="flex justify-between">
           <Link 
             to={url_rote}
             className="bg-blue-900 hover:bg-blue-950 px-4 py-3 rounded-full inline-block hover:scale-125"
           >
             <i className="fa-solid fa-left-long"></i>
-          </Link>
+          </Link>            
+          {user &&
+            <BtnFavorite
+              id_movie={movie.id}
+            ></BtnFavorite>
+          }
         </div>
         <article className="grid grid-cols-1 md:grid-cols-3">
           <div className="col-span-2 p-2">

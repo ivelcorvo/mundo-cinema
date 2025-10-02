@@ -7,12 +7,9 @@
   import { useEffect, useState, FormEvent } from "react";
   import { useMovies,TMDBMovie } from "../hooks/useMovies";
   import { useParams } from "react-router-dom";
-  import { useFavorites } from "../hooks/useFavorites";
-
 
 const Home = () => {
 
-  const {favorites,addIdFavorites,removeFavorite} = useFavorites();
   const {loading, error, getMovies, searchMovies} = useMovies();
   const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>()
 
@@ -108,9 +105,6 @@ const Home = () => {
         {(!loading&&!error&&movies.length>0) &&
           <Movies             
             movies={movies}
-            favorites={favorites}
-            addIdFavorites={addIdFavorites}
-            removeFavorite={removeFavorite}
             currentPage={page}
             search={searchQuery} 
             webPage={"home"}

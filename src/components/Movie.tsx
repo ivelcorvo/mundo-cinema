@@ -9,9 +9,6 @@ import { Link } from "react-router-dom";
 
 interface Props{
   movie: TMDBMovie;
-  favorites: string[];
-  addIdFavorites:(id:string)=>void;
-  removeFavorite:(id:string)=>void;
   currentPage?: number | undefined;
   search?: string | undefined;
   webPage?: string | undefined;
@@ -19,9 +16,6 @@ interface Props{
 
 const Movie = ({
   movie,
-  favorites,
-  addIdFavorites,
-  removeFavorite,
   currentPage,
   search,
   webPage,
@@ -50,12 +44,11 @@ const Movie = ({
       <div className="absolute inset-0 opacity-100 xl:opacity-0 hover:opacity-100 h-full content-end text-white">    
         
         {user && 
-          <BtnFavorite 
-            id_movie={movie.id}
-            favorites={favorites}
-            addIdFavorites={addIdFavorites}
-            removeFavorite={removeFavorite}
-          ></BtnFavorite>
+          <div className="absolute top-5 right-5 ">
+            <BtnFavorite 
+              id_movie={movie.id}
+            ></BtnFavorite>
+          </div>
         }
 
         <div className="p-4 bg-gradient-to-b from-transparent to-black"></div>  

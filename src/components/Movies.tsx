@@ -6,9 +6,6 @@
 
 interface Props{
   movies: TMDBMovie[];
-  favorites: string[];
-  addIdFavorites:(id: string)=>void;
-  removeFavorite:(id:string)=>void;
   currentPage?: number | undefined;
   search?: string | undefined;
   webPage?: string | undefined;
@@ -16,9 +13,6 @@ interface Props{
 
 const Movies = ({
   movies,
-  favorites,
-  addIdFavorites,
-  removeFavorite,
   currentPage,
   search,
   webPage,
@@ -31,9 +25,6 @@ const Movies = ({
         <Movie           
           key={movie.id} 
           movie={movie}
-          favorites={favorites}
-          addIdFavorites={addIdFavorites}
-          removeFavorite={removeFavorite}
           currentPage={currentPage}
           search={search}
           webPage={webPage}
