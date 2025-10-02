@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/mundo-cinema/static/js/main.52f974ff.js",
+    "main.js": "/mundo-cinema/static/js/main.cc0ea652.js",
     "static/js/453.6e287e17.chunk.js": "/mundo-cinema/static/js/453.6e287e17.chunk.js",
     "index.html": "/mundo-cinema/index.html",
-    "main.52f974ff.js.map": "/mundo-cinema/static/js/main.52f974ff.js.map",
+    "main.cc0ea652.js.map": "/mundo-cinema/static/js/main.cc0ea652.js.map",
     "453.6e287e17.chunk.js.map": "/mundo-cinema/static/js/453.6e287e17.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.52f974ff.js"
+    "static/js/main.cc0ea652.js"
   ]
 }
