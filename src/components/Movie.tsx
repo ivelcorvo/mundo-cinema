@@ -9,24 +9,33 @@ import { Link } from "react-router-dom";
 
 interface Props{
   movie: TMDBMovie;
-  currentPage: number;
-  search: string;
   favorites: string[];
   addIdFavorites:(id:string)=>void;
   removeFavorite:(id:string)=>void;
+  currentPage?: number | undefined;
+  search?: string | undefined;
+  webPage?: string | undefined;
 };
 
 const Movie = ({
   movie,
-  currentPage,
-  search,
   favorites,
   addIdFavorites,
-  removeFavorite
+  removeFavorite,
+  currentPage,
+  search,
+  webPage,
 }:Props) => {
 
   const {user} = useAuth();
   // console.log(movie);
+
+  let url_rote:string = "";
+  if(webPage==="favorites") {
+    url_rote = `/movie/detail/${webPage}/${movie.id}`;
+  }else{
+    url_rote = `/movie/detail/${webPage}/${movie.id}/${currentPage}/${search}`;
+  }
 
   return (
 
@@ -42,8 +51,8 @@ const Movie = ({
         
         {user && 
           <BtnFavorite 
-            favorites={favorites}
             id_movie={movie.id}
+            favorites={favorites}
             addIdFavorites={addIdFavorites}
             removeFavorite={removeFavorite}
           ></BtnFavorite>
@@ -59,7 +68,7 @@ const Movie = ({
           </div>
           <div className="sm:mt-1">
             <Link 
-              to={`/movie/detail/${movie.id}/${currentPage}/${search}`}
+              to={url_rote}
               className="bg-blue-900 hover:bg-blue-950 px-2 py-0.5 rounded-md shadow-md "              
             >
               Detalhes
