@@ -6,34 +6,37 @@
 
 interface Props{
   movies: TMDBMovie[];
-  currentPage: number;
-  search: string;
   favorites: string[];
   addIdFavorites:(id: string)=>void;
   removeFavorite:(id:string)=>void;
+  currentPage?: number | undefined;
+  search?: string | undefined;
+  webPage?: string | undefined;
 };
 
 const Movies = ({
   movies,
-  currentPage,
-  search,
   favorites,
   addIdFavorites,
-  removeFavorite
+  removeFavorite,
+  currentPage,
+  search,
+  webPage,
 }:Props) => {  
   // const filmes:number[] = [...Array(21).keys()];
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 md:sm:grid-cols-3 xl:sm:grid-cols-5 justify-center items-center">
       {movies && movies.map((movie,i)=>(
-        <Movie 
+        <Movie           
           key={movie.id} 
           movie={movie}
-          currentPage={currentPage}
-          search={search}
           favorites={favorites}
           addIdFavorites={addIdFavorites}
           removeFavorite={removeFavorite}
+          currentPage={currentPage}
+          search={search}
+          webPage={webPage}
         ></Movie>
       ))}
     </section>
