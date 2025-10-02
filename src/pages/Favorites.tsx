@@ -18,8 +18,8 @@ const Favorites = () => {
     }
     loadMovie();
   },[getMoviesByIds,favorites]);
-  console.log(favorites);
-  console.log(movies);
+  // console.log(favorites);
+  // console.log(movies);
 
   return (
     <>
