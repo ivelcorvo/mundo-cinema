@@ -32,13 +32,13 @@ function App() {
         <NavBar></NavBar>
         <main className="pt-30 flex-grow max-w-[95%] min-w-[80%] sm:max-w-[80%] sm:min-w-[80%] mx-auto ">
           <Routes>
-            <Route path="/home/:currentPage?/:search?"            element={<Home/>}/>
-            <Route path="/login"                                  element={(!user)?<Login/>:<Home/>}/>
-            <Route path="/register"                               element={(!user)?<Register/>:<Home/>}/>
-            <Route path="/about"                                  element={<About/>}/>
-            <Route path="/favorites"                              element={(user)?<Favorites/>:<Home/>}/>
-            <Route path="/movie/detail/:id/:currentPage/:search?" element={<MovieDetail/>}/>
-            <Route path="*"                                       element={<Navigate to="/home"/>}/>
+            <Route path="/home/:currentPage?/:search?"                      element={<Home/>}/>
+            <Route path="/login"                                            element={(!user)?<Login/>:<Home/>}/>
+            <Route path="/register"                                         element={(!user)?<Register/>:<Home/>}/>
+            <Route path="/about"                                            element={<About/>}/>
+            <Route path="/favorites"                                        element={(user)?<Favorites/>:<Home/>}/>
+            <Route path="/movie/detail/:webPage/:id/:currentPage?/:search?" element={<MovieDetail/>}/>
+            <Route path="*"                                                 element={<Navigate to="/home"/>}/>
           </Routes>
         </main>
         <Footer></Footer>

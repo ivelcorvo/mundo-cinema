@@ -38,7 +38,7 @@ export const useFavorites = ()=>{
   useEffect(()=>{
     getIdsFavorites();
   },[getIdsFavorites]);
-  console.log(favorites);
+  // console.log(favorites);
 
   const addIdFavorites = async(id:string)=>{
     setError(null);
