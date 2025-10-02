@@ -12,7 +12,6 @@
 
 const Home = () => {
 
-  // const {getIdsFavorites}                         = useFavorites();
   const {favorites,addIdFavorites,removeFavorite} = useFavorites();
   const {loading, error, getMovies, searchMovies} = useMovies();
   const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>()
@@ -49,16 +48,6 @@ const Home = () => {
     // console.log(movies);
     // console.log(page);
 
-  // ### BUSCA OS IDS DOS FILMES FAVORITOS ####
-    // useEffect(()=>{
-    //   const loadFavorites = async()=>{
-    //     const ids = await getIdsFavorites();
-    //     setFavorites(ids);
-    //   }
-    //   loadFavorites();
-    // },[getIdsFavorites]);
-    // console.log(favorites);
-
   // ### MANIPULAÇÃO DAS PÁGINAS ####
     const nextPage = ()=>{
       setPage(prev=>prev+1);
@@ -72,7 +61,6 @@ const Home = () => {
 
   return (
     <>
-
       {/* ### FORMULARIO DE BUSCA ### */}
         <section className="mb-10">
           <form onSubmit={handleSubmit}>
@@ -120,11 +108,12 @@ const Home = () => {
         {(!loading&&!error&&movies.length>0) &&
           <Movies             
             movies={movies}
-            currentPage={page}
-            search={searchQuery} 
             favorites={favorites}
             addIdFavorites={addIdFavorites}
             removeFavorite={removeFavorite}
+            currentPage={page}
+            search={searchQuery} 
+            webPage={"home"}
           ></Movies>
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
@@ -140,7 +129,6 @@ const Home = () => {
         }
         
     </>
-    // </div>
   )
 };
 
