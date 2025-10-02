@@ -2,18 +2,22 @@ import { useCallback, useEffect, useState } from "react";
 import { apiRequest } from "../api/apiRequest";
 import { auth } from "../firebase/firebase_config";
 
+import { useAuth } from "../context/AuthContext";
+
 export const useFavorites = ()=>{
 
   const url:string = process.env.REACT_APP_FIREBASE_REALTIME_DATABASE!;
+
+  const {user} = useAuth()
 
   const [loading,setLoading]     = useState<boolean>(false);
   const [error,setError]         = useState<null | Error>(null);
   const [favorites,setFavorites] = useState<string[]>([]);
 
-  const getToken = async()=>{
-    if(!auth.currentUser) return null;
-    return await auth.currentUser.getIdToken(true);
-  };
+  const getToken = useCallback(async()=>{
+    if(!user) return null;
+    return await user.getIdToken();
+  },[user]);
   
   const getIdsFavorites = useCallback(async()=>{
     setError(null);
@@ -33,7 +37,7 @@ export const useFavorites = ()=>{
       setLoading(false);
       return [];
     }
-  },[url]);
+  },[url,getToken]);
 
   useEffect(()=>{
     getIdsFavorites();
