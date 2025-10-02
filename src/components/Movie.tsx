@@ -47,7 +47,7 @@ const Movie = ({
         className="duration-500 group-hover:opacity-25 rounded-md"
       />
       
-      <div className="absolute inset-0 opacity-100 sm:opacity-0 hover:opacity-100 h-full content-end text-white">    
+      <div className="absolute inset-0 opacity-100 xl:opacity-0 hover:opacity-100 h-full content-end text-white">    
         
         {user && 
           <BtnFavorite 
