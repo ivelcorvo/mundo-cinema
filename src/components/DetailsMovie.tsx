@@ -3,11 +3,20 @@ import { TMDBMovie, TMDB_IMAGE_URL } from "../hooks/useMovies"
 
 interface Props {
   movie: TMDBMovie,
-  currentPage: string | undefined,
-  search: string | undefined
+  currentPage?: string | undefined,
+  search?: string | undefined
+  webPage?: string | undefined;
 }
 
-const DetailsMovie = ({movie,currentPage,search}: Props) => {
+const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
+
+  let url_rote:string = "";
+  if(webPage==="favorites") {
+    url_rote = `/favorites`;
+  }else{
+    url_rote = `/home/${currentPage}/${(search===undefined)?"":search}`;
+  }
+
   return (
     
     <div       
@@ -23,7 +32,7 @@ const DetailsMovie = ({movie,currentPage,search}: Props) => {
       <div className="bg-black/95 p-3">
         <div>
           <Link 
-            to={`/home/${currentPage}/${(search===undefined)?"":search}`}
+            to={url_rote}
             className="bg-blue-900 hover:bg-blue-950 px-4 py-3 rounded-full inline-block hover:scale-125"
           >
             <i className="fa-solid fa-left-long"></i>
