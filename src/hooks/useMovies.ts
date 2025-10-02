@@ -41,6 +41,21 @@ export const useMovies = ()=>{
     }
   },[]);
 
+  const getMoviesByIds = useCallback(async(ids:string[]):Promise<TMDBMovie[]>=>{
+    setError(null);
+    setLoading(true);
+    try {            
+      const requests = ids.map(id => tmdb.get<TMDBMovie>(`/movie/${id}`));            
+      const res = await Promise.all(requests);
+      setLoading(false);      
+      return res.map(r => r.data);
+    } catch (error:unknown) {
+      setError(error as Error);
+      setLoading(false);
+      return [];
+    }
+  },[]);
+
   const searchMovies = useCallback(async(query:string, page:number=1):Promise<TMDBMovie[]>=>{
     setLoading(true);
     try {
@@ -75,5 +90,5 @@ export const useMovies = ()=>{
     }
   },[]);
 
-  return {loading, error, getMovies, getMovie, searchMovies};
+  return {loading, error, getMovies, getMoviesByIds, getMovie, searchMovies};
 };
