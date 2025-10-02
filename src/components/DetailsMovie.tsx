@@ -26,10 +26,9 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity:50
       }}
     > 
-      <div className="bg-black/95 p-3">
+      <div className="bg-black/85 p-3">
         <div>
           <Link 
             to={url_rote}
