@@ -1,11 +1,17 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useAuthActions } from "../hooks/useAuthActions";
 import { useNavigate } from "react-router-dom";
-
+import { useDarkTheme } from "../context/DarkThemeContext";
 
 const Register = () => {
-  const classInput = "bg-gray-800 w-full px-2 py-0.5 rounded-md";
-  const classBtn   = "bg-gray-800 hover:bg-gray-900 px-2 py-0.5 rounded-md hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+
+  const {isDark} = useDarkTheme();
+
+  // #### CLASSES ####
+    const classTheme:string = (isDark)?"bg-gray-950 shadow-gray-900":"bg-gray-200";
+    const classInput:string = `${(isDark)?"bg-gray-800":"bg-white"} w-full px-2 py-0.5 rounded-md`;
+    const classBtn:string   = "bg-gray-800 hover:bg-gray-700 text-white px-2 py-0.5 rounded-md hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+
 
   const {loading, error:authError, createUser, logoutUser} = useAuthActions();
 
@@ -55,7 +61,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="bg-gray-950 max-w-100 mx-auto p-3 rounded-xl shadow-md shadow-gray-900">
+      <div className={`${classTheme} max-w-100 mx-auto p-3 rounded-xl shadow-md`}>
         <form onSubmit={handleSubmit}>
           <div className="mb-2">
             <input 

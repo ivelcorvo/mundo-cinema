@@ -17,13 +17,14 @@ const BtnProxAnt = ({
 }: Props) => {
 
   // console.log(movies_length);
+  const classBtn:string = "bg-gray-800 hover:bg-gray-700 text-white px-2 py-1 rounded-md shadow-md hover:cursor-pointer"
 
   return (
     <nav className="text-center space-x-3 mt-20 mb-10">
       {(page>1) &&
         <button
           type="button"
-          className="bg-blue-900 hover:bg-blue-950 px-2 py-1 rounded-md shadow-md hover:cursor-pointer"
+          className={classBtn}
           onClick={()=>{iniPage()}}
         >
           Início
@@ -32,7 +33,7 @@ const BtnProxAnt = ({
       {(page>1) &&
         <button
           type="button"
-          className="bg-blue-900 hover:bg-blue-950 px-2 py-1 rounded-md shadow-md hover:cursor-pointer"
+          className={classBtn}
           onClick={()=>{prevPage()}}
         >
           Anteriores
@@ -42,7 +43,7 @@ const BtnProxAnt = ({
       {(movies_length>0&&page>=1) &&
         <button
         type="button"
-        className="bg-blue-900 hover:bg-blue-950 px-2 py-1 rounded-md shadow-md hover:cursor-pointer"
+        className={classBtn}
         onClick={()=>{nextPage()}}
         >
           Próximos

@@ -7,17 +7,20 @@
   import { useEffect, useState, FormEvent } from "react";
   import { useMovies,TMDBMovie } from "../hooks/useMovies";
   import { useParams } from "react-router-dom";
+  import { useDarkTheme } from "../context/DarkThemeContext";
 
-const Home = () => {
+const Home = () => {  
 
+  const {isDark}                                  = useDarkTheme();
   const {loading, error, getMovies, searchMovies} = useMovies();
-  const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>()
+  const {currentPage,search}                      = useParams<{currentPage?:string, search?:string}>();
 
   const [searchQuery,setSearchQuery] = useState<string>(()=>(search)?search:"");
   const [movies,setMovies]           = useState<TMDBMovie[]>([]);
-  const [page,setPage]               = useState<number>(()=>(currentPage)?Number(currentPage):1);
-  // const [favorites,setFavorites]     = useState<string[]>([]);
+  const [page,setPage]               = useState<number>(()=>(currentPage)?Number(currentPage):1);  
 
+  // #### CLASSES ####
+    const classInput:string = `${(isDark)?"bg-gray-800":"bg-gray-300"} w-full ps-4 pe-16 py-1 rounded-md`;
 
   // ### PESQUISA ####
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
@@ -64,7 +67,7 @@ const Home = () => {
             <div className="flex flex-row relative">
               <input 
                 type="text" 
-                className={"bg-gray-700 w-full ps-4 pe-16 py-1 rounded-md"}  
+                className={classInput}  
                 autoComplete="off"
                 placeholder="Pesquise..."
                 onChange={(e)=>{

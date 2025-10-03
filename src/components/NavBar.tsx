@@ -2,32 +2,36 @@ import { NavLink } from "react-router-dom";
 
 // #### HOOKS ####
   import { useAuth } from "../context/AuthContext";
+  import { useDarkTheme } from "../context/DarkThemeContext";
   import { useState } from "react";
   import { useAuthActions } from "../hooks/useAuthActions";
 
 const NavBar = () => {
   const {user} = useAuth();
+  const {isDark,toggleDarkTheme} = useDarkTheme();
 
   const {logoutUser} = useAuthActions();
   
   const [collapse,setCollpse] = useState<boolean>(false);
 
-  const classLink:string       = "block hover:bg-gray-900 p-3" ;
-  const classLinkActive:string = "block hover:bg-gray-900 border-e-1 border-white p-3" ;
+  // #### CLASSES ####
+    const classThemeMenu:string  = (isDark)?"bg-gray-950":"bg-gray-100";
+    const classLink:string       = `${(isDark)?"hover:bg-gray-900":"hover:bg-gray-200"} block p-3` ;
+    const classLinkActive:string = `${(isDark)?"hover:bg-gray-900":"hover:bg-gray-200"} block border-e-1 ${(isDark)?"border-white":"border-black"} p-3`;
 
   return (
     <>
-      <header className="bg-gray-950 fixed w-full shadow-md z-30">
+      <header className={`${classThemeMenu} fixed w-full shadow-md z-30`}>
         <nav className="px-3 py-1 w-full z-20">
           <div>
             <button 
               onClick={()=>{setCollpse(!collapse)}}
-              className="bg-gray-900 px-4 py-2 rounded-md shadow-md hover:scale-110 hover:cursor-pointer"
+              className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md shadow-md hover:scale-110 hover:cursor-pointer"
             >
               <i className="fa-solid fa-bars"></i>
             </button>
           </div>
-          <ul className={`bg-gray-950 fixed left-0 top-12 flex flex-col h-full w-35 transform duration-500 z-30 ${(collapse)?"translate-x-0":"-translate-x-full"}`}>
+          <ul className={`${classThemeMenu} fixed left-0 top-12 flex flex-col h-full w-35 transform duration-500 z-30 ${(collapse)?"translate-x-0":"-translate-x-full"}`}>
             <li>
               <NavLink to="/home" className={({isActive})=>isActive?classLinkActive:classLink}><i className="fa-solid fa-house"></i> Inicio</NavLink>
             </li>
@@ -61,8 +65,11 @@ const NavBar = () => {
             }
             
             <li>
-              <button className={`${classLink} w-full text-start hover:cursor-pointer`}>
-                <i className="fa-solid fa-sun"></i> / <i className="fa-solid fa-moon"></i> Tema
+              <button 
+                onClick={toggleDarkTheme}
+                className={`${classLink} w-full text-start hover:cursor-pointer`}
+              >
+                {isDark?<i className="fa-solid fa-moon"></i>:<i className="fa-solid fa-sun"></i>} Tema
               </button>
             </li>
           </ul>

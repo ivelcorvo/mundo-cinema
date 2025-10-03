@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { TMDBMovie, TMDB_IMAGE_URL } from "../hooks/useMovies"
 import BtnFavorite from "./BtnFavorite";
 import { useAuth } from "../context/AuthContext";
+import { useDarkTheme } from "../context/DarkThemeContext";
 
 interface Props {
   movie: TMDBMovie,
@@ -12,7 +13,11 @@ interface Props {
 
 const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
 
-  const {user} = useAuth();
+  const {user}   = useAuth();
+  const {isDark} = useDarkTheme();
+
+  // #### CLASSES ####
+    const classTheme = (isDark)?"bg-black/85":"bg-white/85";
 
   let url_rote:string = "";
   if(webPage==="favorites") {
@@ -24,7 +29,7 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
   return (
     
     <div       
-      className="rounded-md"
+      className="rounded-xl"
       style={{ 
         backgroundImage: `url(${TMDB_IMAGE_URL}${movie.poster_path})`,
         backgroundSize: "cover",
@@ -32,11 +37,11 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
         backgroundRepeat: "no-repeat",
       }}
     > 
-      <div className="bg-black/85 p-3">
+      <div className={`${classTheme} p-3 rounded-md`} >
         <div className="flex justify-between">
           <Link 
             to={url_rote}
-            className="bg-blue-900 hover:bg-blue-950 px-4 py-3 rounded-full inline-block hover:scale-125"
+            className="bg-blue-900 hover:bg-blue-700 text-white px-4 py-3 rounded-full inline-block hover:scale-125"
           >
             <i className="fa-solid fa-left-long"></i>
           </Link>            

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // #### HOOKS ####
   import { useAuth } from "./context/AuthContext";
+  import { useDarkTheme } from "./context/DarkThemeContext";
 
 // #### COMPONENTES ####
   import NavBar from "./components/NavBar";
@@ -19,6 +20,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 function App() {
 
   const {loading,user} = useAuth();
+  const {isDark}       = useDarkTheme();
 
   if(loading){
     return(
@@ -26,8 +28,12 @@ function App() {
     );
   }
 
+  // #### CLASSES ####
+    const classTheme:string     = (isDark)?"bg-black ":"bg-white ";
+    const classThemeText:string = (isDark)?"text-gray-400 ":"text-gray-700";
+
   return (
-    <div className="bg-black text-gray-400 flex flex-col min-h-screen p-0 m-0">
+    <div className={`${classTheme} ${classThemeText} flex flex-col min-h-screen p-0 m-0`}>
       <BrowserRouter>
         <NavBar></NavBar>
         <main className="pt-30 flex-grow max-w-[95%] min-w-[80%] sm:max-w-[80%] sm:min-w-[80%] mx-auto ">

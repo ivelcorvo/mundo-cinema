@@ -24,7 +24,7 @@ const BtnFavorite = ({
         className="bg-black/30 p-1 rounded-full shadow-md hover:cursor-pointer items center"
         onClick={toggleFavorite}
       >
-        <i className={`fa-solid fa-heart fa-xl ${favorites.includes(String(id_movie))?"text-red-700":"text-gray-400"}`}></i>
+        <i className={`fa-solid fa-heart fa-xl ${favorites.includes(String(id_movie))?"text-red-700":"text-white"}`}></i>
       </button>
     </>
   )

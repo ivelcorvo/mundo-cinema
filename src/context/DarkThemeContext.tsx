@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 interface Theme {
   isDark:boolean;  
@@ -7,7 +7,7 @@ interface Theme {
 
 export const DarkThemeContext = createContext<Theme | undefined>(undefined);
 
-export const DarkThemProvider = ({children}:{children:ReactNode})=>{
+export const DarkThemeProvider = ({children}:{children:ReactNode})=>{
   const [isDark,SetIsDark] = useState<boolean>(()=>{
     let saved = localStorage.getItem("isDark")
     return (saved)?JSON.parse(saved):false
@@ -26,4 +26,14 @@ export const DarkThemProvider = ({children}:{children:ReactNode})=>{
       {children}
     </DarkThemeContext.Provider>
   );
+};
+
+export const useDarkTheme = ()=>{
+  const context = useContext(DarkThemeContext);
+
+  if(!context){
+    throw new Error("useDarkTheme deve ser usado dentro de um DarkThemeProvider");
+  }
+
+  return context;
 };
