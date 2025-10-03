@@ -10,7 +10,7 @@ export const DarkThemeContext = createContext<Theme | undefined>(undefined);
 export const DarkThemeProvider = ({children}:{children:ReactNode})=>{
   const [isDark,SetIsDark] = useState<boolean>(()=>{
     let saved = localStorage.getItem("isDark")
-    return (saved)?JSON.parse(saved):false
+    return (saved)?JSON.parse(saved):true
   });
 
   const toggleDarkTheme = ()=>{

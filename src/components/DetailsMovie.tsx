@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom"
 import { TMDBMovie, TMDB_IMAGE_URL } from "../hooks/useMovies"
-import BtnFavorite from "./BtnFavorite";
-import { useAuth } from "../context/AuthContext";
-import { useDarkTheme } from "../context/DarkThemeContext";
+import { dateFormat } from "../utils/helpers";
+
+// ### HOOKS | INTERFACES ###
+  import { useAuth } from "../context/AuthContext";
+  import { useDarkTheme } from "../context/DarkThemeContext";
+
+// ### COMPONENTES ###
+  import BtnFavorite from "./BtnFavorite";
 
 interface Props {
   movie: TMDBMovie,
@@ -41,7 +46,7 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
         <div className="flex justify-between">
           <Link 
             to={url_rote}
-            className="bg-blue-900 hover:bg-blue-700 text-white px-4 py-3 rounded-full inline-block hover:scale-125"
+            className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-full inline-block hover:scale-125"
           >
             <i className="fa-solid fa-left-long"></i>
           </Link>            
@@ -66,7 +71,7 @@ const DetailsMovie = ({movie,webPage,currentPage,search}: Props) => {
               <header>
                 <h2 className="text-xl font-semibold">Informações</h2>
               </header>
-              <p>{movie.release_date}</p>
+              <p>{dateFormat(movie.release_date)}</p>
               <p>tempo: {movie.runtime} min</p>
             </section>
             <section className="mt-5">

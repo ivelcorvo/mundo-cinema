@@ -1,10 +1,11 @@
 import { TMDBMovie,TMDB_IMAGE_URL } from "../hooks/useMovies";
 import { Link } from "react-router-dom";
+import { dateFormat } from "../utils/helpers";
 
 // ### COMPONENTES ###
   import BtnFavorite from "./BtnFavorite";
 
-// ### HOOKS | INTERFACES ###
+// ### HOOKS  ###
   import { useAuth } from "../context/AuthContext";
 
 interface Props{
@@ -56,7 +57,7 @@ const Movie = ({
             <h2 className="text-lg font-bold">{movie.title}</h2>
           </header>
           <div className="sm:mt-1">
-            <p>{movie.release_date}</p>
+            <p>{dateFormat(movie.release_date)}</p>
           </div>
           <div className="sm:mt-1">
             <Link 
