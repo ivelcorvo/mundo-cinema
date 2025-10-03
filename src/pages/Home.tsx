@@ -42,8 +42,8 @@ const Home = () => {
       };
       loadMovies();
     },[getMovies,searchMovies,page,searchQuery]);
-    // console.log(movies);
-    // console.log(page);
+    console.log(movies);
+    console.log(page);
 
   // ### MANIPULAÇÃO DAS PÁGINAS ####
     const nextPage = ()=>{
@@ -92,6 +92,7 @@ const Home = () => {
         {(!loading&&!error&&movies.length>0) &&
           <BtnProxAnt             
             page={page}
+            movies_length={movies.length}
             iniPage={iniPage}
             nextPage={nextPage}
             prevPage={prevPage}
@@ -112,13 +113,15 @@ const Home = () => {
         }
         {error && <p><i className="fa-solid fa-face-frown"></i> Infelizmente não foi possível trazer os filmes...</p>}
 
-        {/* ### PAGINAÇÃO INFERIOR ### */}
-        {(!loading&&!error&&movies.length>0) &&
+        {/* ### PAGINAÇÃO INFERIOR ### */}        
+        {/* Com essa lógica consigo garantir que, mesmo se não tiver mais resultados, apenas esse menu de paginação apareça */}
+        {(!loading&&!error&&(movies.length>0||(movies.length===0&&page>1))) &&
           <BtnProxAnt 
             page={page}
+            movies_length={movies.length}
             iniPage={iniPage}
             nextPage={nextPage}
-            prevPage={prevPage}            
+            prevPage={prevPage}    
           ></BtnProxAnt>
         }
         
