@@ -84,9 +84,9 @@ const Home = () => {
         </section>
 
         {/* ### MENU COM GENEROS ### */}
-        <nav className="mb-10">
+        {/* <nav className="mb-10">
           generos
-        </nav>
+        </nav> */}
 
         {/* ### PAGINAÇÃO SUPERIOR ### */}
         {(!loading&&!error&&movies.length>0) &&
